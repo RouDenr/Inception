@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+        <script>
+            var turn = 1;  //1 - ход игрока 1, 2 - ход игрока 2.
+            //Игрок 1 играе Х, Игорк 2 играет О.
+            var name_array = ['Игрок 1',"Игрок 2"];
+            var game = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // 0 - пустая клетка, 1 - в клетке стоит Х, 2 - в клетке стоит О.
+            var lines = [[0, 1, 2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+
+            function setPlayerNames() {
+                document.getElementById('Hod').innerHTML = 'Ходит ' + name_array[turn - 1];
+                document.getElementById('player1').innerHTML = name_array[0] +' играет X';
+                document.getElementById('player2').innerHTML = name_array[1] +' играет O';
+                for(var y = 0; y<=8; y++){
+                document.getElementById('b'+y).style.borderColor = 'grey';}
+            }
+
+            function cW() {
+                for (var i = 0; i < 8; i++) {
+                    var line = lines[i];
+                    if (game[line[0]] == 1 && game[line[1]] == 1 && game[line[2]] == 1) { alert(name_array[0] + ' победил') }
+                    else if (game[line[0]] == 2 && game[line[1]] == 2 && game[line[2]] == 2) { alert(name_array[1] + ' победил') }
+                }
+
+            }
+
+            function askName1(PlayerNum,XO){
+                name_array[ +PlayerNum - 1] = prompt("Введите имя игрока "+ PlayerNum);
+                setPlayerNames()
+                }
+
+            function drawCell(cell, id) {
+                if (game[cell] == 1) {
+                    document.getElementById(id).innerHTML = 'X'
+                }
+                if (game[cell] == 2) {
+                    document.getElementById(id).innerHTML = 'O'
+                }
+            }
+
+            function help(){
+                for(var hint = 0;hint<8;hint++){
+                    var line2 = lines[hint]
+                    var game_clone =  [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    for(var j = 0;j<8;j++){
+                        game_clone[j] = game[j]
+                    }
+                    game_clone[hint] = turn;
+                    if (cW_clone(game_clone) == true && game_clone[hint]==0){
+                        document.getElementById('b'+hint).style.borderColor = 'red'
+                        return}
+                }
+                var hint2 = Math.floor(Math.random()*9+0);
+                while (game[hint2] != 0){
+                    hint2 = Math.floor(Math.random()*9+0);
+
+                }document.getElementById('b'+hint2).style.borderColor = 'red'
+                }
+
+                function cW_clone(game_clone) {
+                for (var u = 0; u < 8; u++) {
+                    var line2 = lines[u];
+                    if (game_clone[line2[0]] == 1 && game_clone[line2[1]] == 1 && game_clone[line2[2]] == 1) {return true}
+                    else if (game_clone[line2[0]] == 2 && game_clone[line2[1]] == 2 && game_clone[line2[2]] == 2) {return true}
+
+                }
+                return false;
+            }
+
+            function drawGame(){
+                for(u=0;u<9;u++){
+                drawCell(u, 'b'+u)
+                }
+            }
+
+            function setX(cell) {
+                if (game[cell] == 0){game[cell] = turn;
+                turn = 3-turn;}
+
+
+                drawGame();
+                setPlayerNames();
+                cW();
+            }
+
+        </script>
+        <style>
+            .square {
+                border: 1px solid #999;
+                height: 68px;
+                width: 68px;
+                background: #fff;
+            }
+            #cancel{
+                border: 1px solid #999;
+                height: 34px;
+                width: 200px;
+                background: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 align="center">Крестики-Нолики</h1>
+        <h1 align="center"><div id="Hod">Ходит ...</div></h1>
+        <div id = "player1">Игрок ...</div>
+            <button onclick="askName1('1','X')" >Изменить имя</button>
+        <div id = "player2">Игрок ...</div>
+            <button onclick="askName1('2','O')">Изменить имя</button>
+
+        <div align="center">
+            <button class="square" id="b0" onclick="setX(0)" ></button>
+            <button class="square" id="b1" onclick="setX(1)" ></button>
+            <button class="square" id="b2" onclick="setX(2)" ></button>
+        </div>
+        <div align="center">
+            <button class="square" id="b3" onclick="setX(3)"></button>
+            <button class="square" id="b4" onclick="setX(4)"></button>
+            <button class="square" id="b5" onclick="setX(5)"></button>
+        </div>
+        <div align="center">
+            <button class="square" id="b6" onclick="setX(6)"></button>
+            <button class="square" id="b7" onclick="setX(7)"></button>
+            <button class="square" id="b8" onclick="setX(8)"></button>
+        </div>
+        <div align="center"><br>
+            <button id="cancel" onclick="help()">ПОДСКАЗКА</button>
+        </div>
+    </body>
+    <script>
+    setPlayerNames()
+    </script>
+</html>

@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  nginx:
+    container_name  : nginx
+    image           : nginx:${TITLE}
+    build           : requirements/nginx/
+    ports           :
+      - "443:443"
+    # volumes:
+    #   - website:srcs/requirements/nginx/tools/
+    restart: always
+
+
