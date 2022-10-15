@@ -11,4 +11,11 @@ services:
     #   - website:srcs/requirements/nginx/tools/
     restart: always
 
+  wordpress:
+    container_name: wordpress
+    image: wordpress:${TITLE}
+    build           : requirements/nginx/
+    
+    restart: always
+
 

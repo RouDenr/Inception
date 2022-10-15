@@ -1,10 +1,3 @@
-# V_FLAG = -v /home/decordel/Inception/srcs/resources:/usr/src/app/resources
-
-# all :
-# 	docker run --rm --name web -p 8080:8080 -e TZ=Europe/Moscow ${V_FLAG} web-hello
-
-# build	:
-# 	docker build -t web-hello srcs/
 
 
 
@@ -14,10 +7,15 @@ all	:
 run	: start.t
 	docker-compose --env-file srcs/.env -f srcs/docker-compose.yml up -d
 
+stop	:
+	docker stop $(docker ps -q)
+
 clean	:
 	docker rmi 	$(docker images -f 'dangling=true' -q)
 # docker stop $(docker ps -aq)
 # docker rm 	$(docker ps -aq)
+
+.PHONY : all run stop clean
 
 start.t :
 	(cat /etc/hosts | grep decordel) || \
