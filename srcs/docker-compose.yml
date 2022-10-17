@@ -1,21 +1,57 @@
 version: '3.3'
 
+
+networks:
+  # project:
+  #   name: net
+  network:
+
+volumes:
+  website:
+    driver_opts:
+      type: staticws
+      device: ${PWD}/srcs/requirements/nginx/tools
+      o: bind
+
+
 services:
   nginx:
+    depends_on:
+      - wordpress
     container_name  : nginx
     image           : nginx:${TITLE}
     build           : requirements/nginx/
     ports           :
       - "443:443"
-    # volumes:
-    #   - website:srcs/requirements/nginx/tools/
+    volumes:
+      - website:/tools/
+    networks:
+      - network
     restart: always
 
   wordpress:
+    # depends_on:
+      # - mariadb
     container_name: wordpress
     image: wordpress:${TITLE}
-    build           : requirements/nginx/
-    
+    build:
+      context: requirements/wordpress/
+    networks:
+      - network
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - TITLE=${TITLE}
+      - WD_DB_NAME=${MYSQL_DB_NAME}
+      - WD_DB_USER=${MYSQL_NAME}
+      - WD_DB_PASS=${MYSQL_PASS}
+      - WD_DB_HOST=${DB_HOST}
+      - WP_ADMIN_USER=${WP_ADMIN_USER}
+      - WP_ADMIN_PASS=${WP_ADMIN_PASS}
+      - WP_ADMIN_MAIL=${WP_ADMIN_MAIL}
+      - WP_USER=${WP_USER}
+      - WP_PASS=${WP_PASS}
+    volumes:
+      - website:/tools/
+      # - website:var/www/html
+
     restart: always
-
-
