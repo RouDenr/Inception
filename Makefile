@@ -20,21 +20,31 @@ clean	: stop
 
 fclean	: clean
 
+re : fclean all
+
+.PHONY : all run stop clean re sh_to
+
+# ! DEBUG !
 name_docker_container ?= $(shell bash -c 'read -p "$$(docker ps)$$(echo) " username; echo $$username')
 
 sh_to	:
 	docker exec -it ${name_docker_container} /bin/sh
 
-.PHONY : all run stop clean
+# ! DEBUG !
 
+
+# ! FILE DEPENDENCE !
 start.t :
 	(cat /etc/hosts | grep decordel) || \
 	(echo "127.0.0.1 decordel.42.fr" >> /etc/hosts && \
 	echo "127.0.0.1 www.decordel.42.fr" >> /etc/hosts)
 	(cat srcs/.env | grep PASS) || \
 	cat ./pass >> srcs/.env
-	mkdir -p /var/www/html
+	sudo mkdir -p /var/www/html
+	sudo mkdir -p /var/www/db
 	touch $@
 
-# WP_ADMIN_PASSWORD=321qwe
-# WP_PASSWORD=123ewq
+# WP_ADMIN_PASSWORD
+# WP_PASSWORD
+# MYSQL_PASS=123ewq
+# MYSQL_ROOT_PASS=123ewq

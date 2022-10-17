@@ -11,6 +11,11 @@ volumes:
       type: staticws
       device: /var/www/html
       o: bind
+  database:
+    driver_opts:
+      type: none
+      device: /var/www/db
+      o: bind
 
 
 services:
@@ -29,8 +34,8 @@ services:
     restart: always
 
   wordpress:
-    # depends_on:
-      # - mariadb
+    depends_on:
+      - mariadb
     container_name: wordpress
     image: wordpress:${TITLE}
     build:
@@ -52,5 +57,16 @@ services:
     volumes:
       - website:/var/www/html
       # - website:/tools/
+    restart: always
 
+# ! MARIADB
+  mariadb:
+    container_name: mariadb
+    image: mariadb:${TITLE}
+    build:
+      context: requirements/mariadb/
+    networks:
+      - network
+    volumes:
+      - database:/var/www/db
     restart: always
