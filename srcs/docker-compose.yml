@@ -69,4 +69,10 @@ services:
       - network
     volumes:
       - database:/var/www/db
+    environment:
+      - TITLE=${TITLE}
+      - MYSQL_DB_NAME=${MYSQL_DB_NAME}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASS}
+      - MYSQL_ROOT_PASS=${MYSQL_ROOT_PASS}
     restart: always

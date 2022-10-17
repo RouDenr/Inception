@@ -15,11 +15,12 @@ clean	: stop
 	docker rmi 	$$(docker images -f 'dangling=true' -q) || echo no images to rm
 	rm -fr start.t
 	sed -i.bak '/PASS/d' srcs/.env
-# docker stop $(docker ps -aq)
-# docker rm 	$(docker ps -aq)
 
 fclean	: clean
+	docker volume rm $$(docker volume ls -q)
+# docker rmi 	$$(docker images -q) || echo no images to rm
 
+softre : clean all
 re : fclean all
 
 .PHONY : all run stop clean re sh_to
