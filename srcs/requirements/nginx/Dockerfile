@@ -10,7 +10,7 @@ RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
 
 
 COPY ./conf/ /conf/
-COPY ./tools/ /tools/
+# COPY /var/www/html/ /var/www/html/
 
 RUN adduser -D -g 'www' www &&  echo 1 &&\
 	mkdir -p /run/nginx &&  echo 2 && \

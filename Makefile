@@ -8,11 +8,12 @@ run	: start.t
 	docker-compose --env-file srcs/.env -f srcs/docker-compose.yml up -d
 
 stop	:
-	docker stop $$(docker ps -q)
+	docker stop $$(docker ps -q) || echo no conatiner to stop
 
-clean	:
-	docker rmi 	$$(docker images -f 'dangling=true' -q) || echo no conatiner to rm
-	rm start.t
+clean	: stop
+	docker rm $$(docker ps -qa) || echo no conatiner to rm
+	docker rmi 	$$(docker images -f 'dangling=true' -q) || echo no images to rm
+	rm -fr start.t
 	sed -i.bak '/PASS/d' srcs/.env
 # docker stop $(docker ps -aq)
 # docker rm 	$(docker ps -aq)
@@ -32,6 +33,7 @@ start.t :
 	echo "127.0.0.1 www.decordel.42.fr" >> /etc/hosts)
 	(cat srcs/.env | grep PASS) || \
 	cat ./pass >> srcs/.env
+	mkdir -p /var/www/html
 	touch $@
 
 # WP_ADMIN_PASSWORD=321qwe

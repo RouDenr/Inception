@@ -2,15 +2,14 @@ version: '3.3'
 
 
 networks:
-  # project:
-  #   name: net
   network:
+    # name: net
 
 volumes:
   website:
     driver_opts:
       type: staticws
-      device: ${PWD}/srcs/requirements/nginx/tools
+      device: /var/www/html
       o: bind
 
 
@@ -24,7 +23,7 @@ services:
     ports           :
       - "443:443"
     volumes:
-      - website:/tools/
+      - website:/var/www/html
     networks:
       - network
     restart: always
@@ -42,7 +41,7 @@ services:
       - DOMAIN_NAME=${DOMAIN_NAME}
       - TITLE=${TITLE}
       - WD_DB_NAME=${MYSQL_DB_NAME}
-      - WD_DB_USER=${MYSQL_NAME}
+      - WD_DB_USER=${MYSQL_USER}
       - WD_DB_PASS=${MYSQL_PASS}
       - WD_DB_HOST=${DB_HOST}
       - WP_ADMIN_USER=${WP_ADMIN_USER}
@@ -51,7 +50,7 @@ services:
       - WP_USER=${WP_USER}
       - WP_PASS=${WP_PASS}
     volumes:
-      - website:/tools/
-      # - website:var/www/html
+      - website:/var/www/html
+      # - website:/tools/
 
     restart: always
