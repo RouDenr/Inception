@@ -1,5 +1,5 @@
 
-
+FLAGS	= --env-file srcs/.env -f
 
 all	:
 	docker-compose --env-file srcs/.env -f srcs/docker-compose.yml build
@@ -14,6 +14,11 @@ clean	:
 	docker rmi 	$(docker images -f 'dangling=true' -q)
 # docker stop $(docker ps -aq)
 # docker rm 	$(docker ps -aq)
+
+name_docker_container ?= $(shell bash -c 'read -p "$$(docker ps)$$(echo) " username; echo $$username')
+
+sh_to	:
+	docker exec -it ${name_docker_container} /bin/sh
 
 .PHONY : all run stop clean
 
