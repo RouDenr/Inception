@@ -9,12 +9,12 @@ volumes:
   website:
     driver_opts:
       type: staticws
-      device: /var/www/html
+      device: /${HOME}/web
       o: bind
   database:
     driver_opts:
       type: none
-      device: /var/www/db
+      device: /${HOME}/db
       o: bind
 
 
@@ -28,11 +28,12 @@ services:
     ports           :
       - "443:443"
     volumes:
-      - website:/var/www/html
+      - website:/var/www/wordpress
     networks:
       - network
     restart: always
 
+# ! WordPress
   wordpress:
     depends_on:
       - mariadb
@@ -55,8 +56,7 @@ services:
       - WP_USER=${WP_USER}
       - WP_PASS=${WP_PASS}
     volumes:
-      - website:/var/www/html
-      # - website:/tools/
+      - website:/var/www/wordpress
     restart: always
 
 # ! MARIADB
