@@ -1,6 +1,8 @@
 
 FLAGS	= --env-file srcs/.env -f
 
+VOLUME	= $${HOME}/db $${HOME}/web
+
 all	: start.t
 	docker-compose --env-file srcs/.env -f srcs/docker-compose.yml build
 
@@ -18,6 +20,7 @@ clean	: stop
 
 fclean	: clean
 	docker volume rm $$(docker volume ls -q)
+	sudo rm -fr ${VOLUME}
 # docker rmi 	$$(docker images -q) || echo no images to rm
 
 softre : clean all

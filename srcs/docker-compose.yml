@@ -14,10 +14,11 @@ volumes:
   database:
     driver_opts:
       type: none
-      device: /${HOME}/db
+      device: ${HOME}/db
       o: bind
 
 
+# ! NGINX
 services:
   nginx:
     depends_on:
@@ -44,17 +45,17 @@ services:
     networks:
       - network
     environment:
-      - DOMAIN_NAME=${DOMAIN_NAME}
-      - TITLE=${TITLE}
-      - WD_DB_NAME=${MYSQL_DB_NAME}
-      - WD_DB_USER=${MYSQL_USER}
-      - WD_DB_PASS=${MYSQL_PASS}
-      - WD_DB_HOST=${DB_HOST}
-      - WP_ADMIN_USER=${WP_ADMIN_USER}
-      - WP_ADMIN_PASS=${WP_ADMIN_PASS}
-      - WP_ADMIN_MAIL=${WP_ADMIN_MAIL}
-      - WP_USER=${WP_USER}
-      - WP_PASS=${WP_PASS}
+      DOMAIN_NAME : $DOMAIN_NAME
+      TITLE : $TITLE
+      MYSQL_DB_NAME : $MYSQL_DB_NAME
+      MYSQL_USER : $MYSQL_USER
+      MYSQL_PASS : $MYSQL_PASS
+      DB_HOST : $DB_HOST
+      WP_ADMIN_USER : $WP_ADMIN_USER
+      WP_ADMIN_PASS : $WP_ADMIN_PASS
+      WP_ADMIN_MAIL : $WP_ADMIN_MAIL
+      WP_USER : $WP_USER
+      WP_PASS : $WP_PASS
     volumes:
       - website:/var/www/wordpress
     restart: always
@@ -65,14 +66,20 @@ services:
     image: mariadb:${TITLE}
     build:
       context: requirements/mariadb/
-    networks:
-      - network
-    volumes:
-      - database:/var/www/db
-    environment:
+      args:
       - TITLE=${TITLE}
       - MYSQL_DB_NAME=${MYSQL_DB_NAME}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASS=${MYSQL_PASS}
       - MYSQL_ROOT_PASS=${MYSQL_ROOT_PASS}
+    networks:
+      - network
+    volumes:
+      - database:/var/www/db
+    # environment:
+    #   - TITLE=${TITLE}
+    #   - MYSQL_DB_NAME=${MYSQL_DB_NAME}
+    #   - MYSQL_USER=${MYSQL_USER}
+    #   - MYSQL_PASS=${MYSQL_PASS}
+    #   - MYSQL_ROOT_PASS=${MYSQL_ROOT_PASS}
     restart: always
