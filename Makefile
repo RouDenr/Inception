@@ -44,8 +44,7 @@ start.t :
 	echo "127.0.0.1 www.decordel.42.fr" >> /etc/hosts)
 	(cat srcs/.env | grep PASS) || \
 	cat ./pass >> srcs/.env
-	mkdir -p /${HOME}/web
-	mkdir -p /${HOME}/db
+	mkdir -p ${VOLUME}
 	touch $@
 
 # WP_ADMIN_PASSWORD

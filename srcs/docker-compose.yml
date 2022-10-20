@@ -45,17 +45,17 @@ services:
     networks:
       - network
     environment:
-      DOMAIN_NAME : $DOMAIN_NAME
-      TITLE : $TITLE
-      MYSQL_DB_NAME : $MYSQL_DB_NAME
-      MYSQL_USER : $MYSQL_USER
-      MYSQL_PASS : $MYSQL_PASS
-      DB_HOST : $DB_HOST
-      WP_ADMIN_USER : $WP_ADMIN_USER
-      WP_ADMIN_PASS : $WP_ADMIN_PASS
-      WP_ADMIN_MAIL : $WP_ADMIN_MAIL
-      WP_USER : $WP_USER
-      WP_PASS : $WP_PASS
+      DOMAIN_NAME : ${DOMAIN_NAME}
+      TITLE : ${TITLE}
+      MYSQL_DB_NAME : ${MYSQL_DB_NAME}
+      MYSQL_USER : ${MYSQL_USER}
+      MYSQL_PASS : ${MYSQL_PASS}
+      DB_HOST : mariadb:3306
+      WP_ADMIN_USER : ${WP_ADMIN_USER}
+      WP_ADMIN_PASS : ${WP_ADMIN_PASS}
+      WP_ADMIN_MAIL : ${WP_ADMIN_MAIL}
+      WP_USER : ${WP_USER}
+      WP_PASS : ${WP_PASS}
     volumes:
       - website:/var/www/wordpress
     restart: always
@@ -75,7 +75,9 @@ services:
     networks:
       - network
     volumes:
-      - database:/var/www/db
+      - database:/var/lib/mysql
+    ports:
+      - "3306:3306"
     # environment:
     #   - TITLE=${TITLE}
     #   - MYSQL_DB_NAME=${MYSQL_DB_NAME}
