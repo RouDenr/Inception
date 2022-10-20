@@ -30,7 +30,7 @@ re : fclean all
 .PHONY : all run stop clean re sh_to
 
 # ! DEBUG !
-name_docker_container ?= $(shell bash -c 'read -p "$$(docker ps)$$(echo) " username; echo $$username')
+name_docker_container ?= $(shell bash -c 'read -p "$$(docker ps && echo :) " username; echo $$username')
 
 sh_to	:
 	docker exec -it ${name_docker_container} /bin/sh
