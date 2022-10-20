@@ -5,6 +5,8 @@ RUN     apk update --no-cache && \
         php7-iconv php7-mbstring mariadb-client redis
 
 COPY conf/wp-config.php /var/www/wordpress/
+COPY tools/do_work.sh /
+RUN chmod +x /do_work.sh
 
 RUN     sed -i 's/listen = 127\.0\.0\.1:9000/listen = 9000/g' /etc/php7/php-fpm.d/www.conf
 
@@ -17,4 +19,4 @@ RUN mkdir ./run/php/
 EXPOSE 9000
 
 # RUN /bin/sh
-CMD [ "php-fpm7", "-F" ]
+CMD [ "/do_work.sh" ]
