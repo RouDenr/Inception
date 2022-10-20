@@ -17,6 +17,7 @@ clean	: stop
 	docker rmi 	$$(docker images -f 'dangling=true' -q) || echo no images to rm
 	rm -fr start.t
 	sed -i.bak '/PASS/d' srcs/.env
+	sed -i.bak '/^$$/d' srcs/.env
 
 fclean	: clean
 	docker volume rm $$(docker volume ls -q)
@@ -47,7 +48,7 @@ start.t :
 	mkdir -p ${VOLUME}
 	touch $@
 
-# WP_ADMIN_PASSWORD
-# WP_PASSWORD
+# WP_ADMIN_PASS
+# WP_PASS
 # MYSQL_PASS=123ewq
 # MYSQL_ROOT_PASS=123ewq
