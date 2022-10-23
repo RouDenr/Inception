@@ -86,3 +86,15 @@ services:
       - MYSQL_PASS=${MYSQL_PASS}
       - MYSQL_ROOT_PASS=${MYSQL_ROOT_PASS}
     restart: always
+
+# ! REDIS
+  redis:
+    depends_on:
+      - wordpress
+    container_name: redis
+    image: redis:${TITLE}
+    build:
+      context: requirements/bonus/redis/
+    networks:
+      - network
+    restart: always
