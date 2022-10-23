@@ -42,15 +42,16 @@ services:
     image: wordpress:${TITLE}
     build:
       context: requirements/wordpress/
+      args:
+      - MYSQL_DB_NAME=${MYSQL_DB_NAME}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASS}
+      - DB_HOST=mariadb:3306=value
     networks:
       - network
     environment:
       DOMAIN_NAME : ${DOMAIN_NAME}
       TITLE : ${TITLE}
-      MYSQL_DB_NAME : ${MYSQL_DB_NAME}
-      MYSQL_USER : ${MYSQL_USER}
-      MYSQL_PASS : ${MYSQL_PASS}
-      DB_HOST : mariadb:3306
       WP_ADMIN_USER : ${WP_ADMIN_USER}
       WP_ADMIN_PASS : ${WP_ADMIN_PASS}
       WP_ADMIN_MAIL : ${WP_ADMIN_MAIL}
@@ -78,10 +79,10 @@ services:
       - database:/var/lib/mysql
     ports:
       - "3306:3306"
-    # environment:
-    #   - TITLE=${TITLE}
-    #   - MYSQL_DB_NAME=${MYSQL_DB_NAME}
-    #   - MYSQL_USER=${MYSQL_USER}
-    #   - MYSQL_PASS=${MYSQL_PASS}
-    #   - MYSQL_ROOT_PASS=${MYSQL_ROOT_PASS}
+    environment:
+      - TITLE=${TITLE}
+      - MYSQL_DB_NAME=${MYSQL_DB_NAME}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASS}
+      - MYSQL_ROOT_PASS=${MYSQL_ROOT_PASS}
     restart: always
