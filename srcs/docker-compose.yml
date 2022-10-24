@@ -98,3 +98,18 @@ services:
     networks:
       - network
     restart: always
+
+# ! ADMINER
+  adminer:
+    depends_on:
+      - mariadb
+    container_name: adminer
+    image: adminer:${TITLE}
+    build: requirements/bonus/adminer/
+    environment:
+      - ADMINER_DEFAULT_SERVER=${MYSQL_DB_NAME}
+    ports:
+      - 8080:8080
+    networks:
+      - network
+    restart: always
