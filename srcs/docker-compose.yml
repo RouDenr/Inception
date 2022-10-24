@@ -113,3 +113,12 @@ services:
     networks:
       - network
     restart: always
+
+# ! STATIC WEBSITE
+  static-site:
+    container_name: static-site
+    image: static-site:${TITLE}
+    build: requirements/bonus/static-site
+    ports:
+      - 420:80
+    restart: always
