@@ -35,6 +35,12 @@ name_docker_container ?= $(shell bash -c 'read -p "$$(docker ps && echo :) " use
 sh_to	:
 	docker exec -it ${name_docker_container} /bin/sh
 
+
+commit_mess ?=  $(shell bash -c 'read -p "$$(echo commit : ) " commit_mess; echo $$commit_mess')
+commit	:
+	git add .
+	git commit -m '${commit_mess}'
+
 # ! DEBUG !
 
 
