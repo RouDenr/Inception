@@ -16,6 +16,11 @@ volumes:
       type: none
       device: ${HOME}/db
       o: bind
+  backup:
+    driver_opts:
+      type: none
+      device: ${HOME}/backup
+      o: bind
 
 
 # ! NGINX
@@ -149,16 +154,31 @@ services:
       - PASV_MIN=21100
       - PASV_MAX=21110
 
-# ! MONITORING
-  monitoring:
-    container_name: monitoring
-    image: monitoring:${TITLE}
-    depends_on:
-      - mariadb
-      - wordpress
-    build: requirements/bonus/monitoring/
+# MONITORING
+  # monitoring:
+  #   container_name: monitoring
+  #   image: monitoring:${TITLE}
+  #   depends_on:
+  #     - mariadb
+  #     - wordpress
+  #   build: requirements/bonus/monitoring/
+  #   networks:
+  #     - network
+  #   ports:
+  #     - 72:80
+  #   restart: always
+
+
+# ! Back-up tool
+  backup:
+    container_name: backup
+    build: requirements/bonus/backup/
+    image: backup:${TITLE}
     networks:
       - network
-    ports:
-      - 72:80
+    depends_on:
+      - mariadb
+    volumes:
+      - database:/db-data
+      - backup:/backup
     restart: always

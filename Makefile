@@ -1,7 +1,7 @@
 
 FLAGS	= --env-file srcs/.env -f
 
-VOLUME	= $${HOME}/db $${HOME}/web
+VOLUME	= $${HOME}/db $${HOME}/web $${HOME}/backup
 
 all	: start.t
 	docker-compose --env-file srcs/.env -f srcs/docker-compose.yml build
