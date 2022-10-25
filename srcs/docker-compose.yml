@@ -122,3 +122,29 @@ services:
     ports:
       - 420:80
     restart: always
+
+## FTP-SERVER ##
+  ftp-server:
+    container_name: ftp-server
+    image: ftp-server:${TITLE}
+    depends_on:
+      - wordpress
+    build:
+      context: requirements/bonus/ftp-server/
+      args:
+      - FTP_USER=${WP_ADMIN_USER}
+    restart: always
+    ports:
+      - "20:20"
+      - "21:21"
+      - "21100-21110:21100-21110"
+    networks:
+      - network
+    volumes:
+      - website:/home/${WP_ADMIN_USER}/
+    environment:
+      - FTP_USER=${FTP_ADMIN_USER}
+      - FTP_PASS=${FTP_ADMIN_PASSWORD}
+      - PASV_ADDRESS=0.0.0.0
+      - PASV_MIN=21100
+      - PASV_MAX=21110
