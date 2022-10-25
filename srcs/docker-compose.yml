@@ -123,7 +123,7 @@ services:
       - 420:80
     restart: always
 
-## FTP-SERVER ##
+# ! FTP-SERVER
   ftp-server:
     container_name: ftp-server
     image: ftp-server:${TITLE}
@@ -148,3 +148,17 @@ services:
       - PASV_ADDRESS=0.0.0.0
       - PASV_MIN=21100
       - PASV_MAX=21110
+
+# ! MONITORING
+  monitoring:
+    container_name: monitoring
+    image: monitoring:${TITLE}
+    depends_on:
+      - mariadb
+      - wordpress
+    build: requirements/bonus/monitoring/
+    networks:
+      - network
+    ports:
+      - 72:80
+    restart: always
