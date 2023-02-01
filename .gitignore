@@ -3,3 +3,4 @@ start.t
 pass
 *.bak
 workspace.code-workspace
+.DS_Store
